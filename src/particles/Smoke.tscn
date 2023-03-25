@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id=2]
+material = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.265909 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.747727 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.35, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.627451, 1, 1, 1, 0 )
+
+[node name="Smoke" type="CPUParticles"]
+amount = 10
+lifetime = 0.4
+speed_scale = 1.6
+mesh = SubResource( 2 )
+emission_shape = 2
+emission_box_extents = Vector3( 0.2, 0, 0.2 )
+direction = Vector3( 0, 0, 0 )
+spread = 0.0
+gravity = Vector3( 0, 1, 0 )
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
