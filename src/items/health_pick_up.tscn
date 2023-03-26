@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/items/health_pick_up.gd" type="Script" id=1]
+[ext_resource path="res://src/items/pick_up.tscn" type="PackedScene" id=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0, 1, 0.227451, 1 )
+emission_enabled = true
+emission = Color( 0.0196078, 1, 0, 1 )
+emission_energy = 6.31
+emission_operator = 0
+emission_on_uv2 = false
+
+[node name="HealthPickUp" instance=ExtResource( 2 )]
+script = ExtResource( 1 )
+item_type = 0
+heal_value = 5.0
+
+[node name="Mesh" parent="." index="0"]
+material/0 = SubResource( 1 )

@@ -9,19 +9,55 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Item",
+"class": "AttackItem",
+"language": "GDScript",
+"path": "res://src/items/attack_pick_up.gd"
+}, {
+"base": "Item",
+"class": "DefenseItem",
+"language": "GDScript",
+"path": "res://src/items/defense_pick_up.gd"
+}, {
+"base": "Item",
+"class": "HealthItem",
+"language": "GDScript",
+"path": "res://src/items/health_pick_up.gd"
+}, {
 "base": "Resource",
 "class": "InputControl",
 "language": "GDScript",
 "path": "res://src/input/input_controls.gd"
 }, {
+"base": "Area",
+"class": "Item",
+"language": "GDScript",
+"path": "res://src/items/pick_up.gd"
+}, {
 "base": "VehicleBody",
 "class": "Player",
 "language": "GDScript",
 "path": "res://src/vehicles/player_vehicle.gd"
+}, {
+"base": "Item",
+"class": "SpeedItem",
+"language": "GDScript",
+"path": "res://src/items/speed_pick_up.gd"
+}, {
+"base": "Resource",
+"class": "Stats",
+"language": "GDScript",
+"path": "res://src/resources/stats.gd"
 } ]
 _global_script_class_icons={
+"AttackItem": "",
+"DefenseItem": "",
+"HealthItem": "",
 "InputControl": "",
-"Player": ""
+"Item": "",
+"Player": "",
+"SpeedItem": "",
+"Stats": ""
 }
 
 [application]

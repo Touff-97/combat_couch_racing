@@ -32,7 +32,7 @@ albedo_texture = ExtResource( 4 )
 uv1_triplanar = true
 uv2_triplanar = true
 
-[node name="SprintCar" type="Spatial"]
+[node name="SprintCar" type="Spatial" groups=["player"]]
 script = ExtResource( 3 )
 
 [node name="CarMesh" parent="." instance=ExtResource( 2 )]

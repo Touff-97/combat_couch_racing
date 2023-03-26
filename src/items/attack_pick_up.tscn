@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/items/pick_up.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/items/attack_pick_up.gd" type="Script" id=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 1, 0.890196, 0, 1 )
+emission_enabled = true
+emission = Color( 0.968627, 1, 0, 1 )
+emission_energy = 6.31
+emission_operator = 0
+emission_on_uv2 = false
+
+[node name="AttackPickUp" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+item_name = ""
+ammo_quantity = 1
+cooldown = 0.2
+can_spray = true
+
+[node name="Mesh" parent="." index="0"]
+material/0 = SubResource( 1 )

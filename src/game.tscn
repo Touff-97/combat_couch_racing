@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/game.gd" type="Script" id=1]
 [ext_resource path="res://src/levels/test_level.tscn" type="PackedScene" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://src/environment/lighting_env.tres" type="Environment" id=4]
 [ext_resource path="res://src/shaders/post_process_outlines.shader" type="Shader" id=5]
 [ext_resource path="res://src/items/pick_up.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/items/health_pick_up.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/items/speed_pick_up.tscn" type="PackedScene" id=8]
 
 [sub_resource type="PhysicsMaterial" id=1]
 bounce = 0.1
@@ -79,7 +81,13 @@ gravity_scale = 10.0
 angular_damp = 5.0
 
 [node name="PickUp" parent="HBox/Player1Viewport/Viewport/Level" instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 15.1927 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6 )
+
+[node name="HealthPickUp" parent="HBox/Player1Viewport/Viewport/Level" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 6 )
+
+[node name="SpeedPickUp" parent="HBox/Player1Viewport/Viewport/Level" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 6 )
 
 [node name="CameraOrigin" type="Spatial" parent="HBox/Player1Viewport/Viewport"]
 

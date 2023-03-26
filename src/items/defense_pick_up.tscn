@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/items/pick_up.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/items/defense_pick_up.gd" type="Script" id=2]
+
+[node name="DefensePickUp" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+item_name = ""
+quantity = 1

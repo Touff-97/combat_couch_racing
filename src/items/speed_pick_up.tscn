@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/items/speed_pick_up.gd" type="Script" id=1]
+[ext_resource path="res://src/items/pick_up.tscn" type="PackedScene" id=2]
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
+albedo_color = Color( 0, 0.133333, 1, 1 )
+
+[sub_resource type="SphereMesh" id=6]
+material = SubResource( 5 )
+radius = 0.3
+height = 0.6
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 0, 0.133333, 1, 1 )
+emission_enabled = true
+emission = Color( 0.00784314, 0, 1, 1 )
+emission_energy = 6.31
+emission_operator = 0
+emission_on_uv2 = false
+
+[node name="SpeedPickUp" instance=ExtResource( 2 )]
+script = ExtResource( 1 )
+item_type = 3
+speed_value = 10.0
+
+[node name="Mesh" parent="." index="0"]
+mesh = SubResource( 6 )
+material/0 = SubResource( 7 )

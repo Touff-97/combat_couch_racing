@@ -2,6 +2,8 @@ extends Spatial
 
 export(int) onready var player_id setget set_id
 
+export(Resource) var stats setget set_stats
+
 onready var ball: RigidBody = $Ball
 onready var car_mesh: Spatial = $CarMesh
 onready var ground_ray: RayCast = $CarMesh/GroundRay
@@ -27,6 +29,15 @@ var rotate_input := 0.0
 
 func set_id(new_id: int) -> void:
 	player_id = new_id
+
+
+func set_stats(new_stats: Resource) -> void:
+	stats = new_stats
+	
+	stats.connect("health_boosted", self, "_on_health_boosted")
+	stats.connect("speed_boosted", self, "_on_speed_boosted")
+	stats.connect("attack_item_used", self, "_on_attack_item_used")
+	stats.connect("defense_item_used", self, "_on_defense_item_used")
 
 
 func _ready():
@@ -63,7 +74,6 @@ func _process(delta: float) -> void:
 	
 	# Smoke effect
 	var d = ball.linear_velocity.normalized().dot(car_mesh.transform.basis.z)
-	print(d)
 	if ball.linear_velocity.length() > 5.5 and d < 0.9:
 		$CarMesh/Smoke.emitting = true
 		$CarMesh/Smoke2.emitting = true
@@ -109,3 +119,19 @@ func align_with_y(xform, new_y):
 	xform.basis.x = -xform.basis.z.cross(new_y)
 	xform.basis = xform.basis.orthonormalized()
 	return xform
+
+
+func _on_health_boosted(amount: float) -> void:
+	pass
+
+
+func _on_speed_boosted(amount: float) -> void:
+	pass
+
+
+func _on_attack_item_used(item: PackedScene) -> void:
+	pass
+
+
+func _on_defense_item_used(item: PackedScene) -> void:
+	pass
