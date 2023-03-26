@@ -68,4 +68,9 @@ visible = false
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
+[node name="BoostTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="BoostTimer" to="." method="_on_BoostTimer_timeout"]
+
 [editable path="CarMesh"]

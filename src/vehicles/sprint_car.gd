@@ -4,6 +4,12 @@ export(int) onready var player_id setget set_id
 
 export(Resource) var stats setget set_stats
 
+onready var max_health : float = 20.0
+export(float, 0.0, 20.0, 0.5) var health = 20.0 setget set_health
+
+export(bool) var can_boost = false
+onready var boost_timer: Timer = $BoostTimer
+
 onready var ball: RigidBody = $Ball
 onready var car_mesh: Spatial = $CarMesh
 onready var ground_ray: RayCast = $CarMesh/GroundRay
@@ -18,13 +24,17 @@ export(bool) var show_debug = false
 
 var sphere_offset := Vector3(0, -1.0, 0)
 var acceleration := 50.0
+var boost := 1.3
 var steering := 21.0
 var turn_speed := 5.0
 var turn_stop_limit := 0.75
 var body_tilt := 60.0
 
+var move_direction
 var speed_input := 0.0
 var rotate_input := 0.0
+
+signal car_destroyed
 
 
 func set_id(new_id: int) -> void:
@@ -38,6 +48,14 @@ func set_stats(new_stats: Resource) -> void:
 	stats.connect("speed_boosted", self, "_on_speed_boosted")
 	stats.connect("attack_item_used", self, "_on_attack_item_used")
 	stats.connect("defense_item_used", self, "_on_defense_item_used")
+
+
+func set_health(new_health: float) -> void:
+	health += new_health
+	health = clamp(health, 0.0, max_health)
+	
+	if health < 1.0:
+		emit_signal("car_destroyed")
 
 
 func _ready():
@@ -56,16 +74,28 @@ func _process(delta: float) -> void:
 	
 	shadow.show()
 	
+	move_direction = sign(ball.linear_velocity.normalized().dot(car_mesh.transform.basis.z))
+	
 	# Engine force
 	speed_input = 0
-	speed_input -= Input.get_action_strength("accel" + str(player_id))
-	speed_input += Input.get_action_strength("brake" + str(player_id))
-	speed_input *= acceleration
+	speed_input -= Input.get_action_strength("accel%s" % str(player_id))
+	speed_input += Input.get_action_strength("brake%s" % str(player_id))
+	
+	if Input.is_action_pressed("boost%s" % str(player_id)) \
+			and can_boost \
+			and move_direction > 0:
+		speed_input *= acceleration * boost
+		if boost_timer.is_stopped():
+			boost_timer.start(0.3)
+	else:
+		speed_input *= acceleration
+		if not boost_timer.is_stopped():
+			boost_timer.stop()
 	
 	# Steering
 	rotate_input = 0
-	rotate_input += Input.get_action_strength("left" + str(player_id))
-	rotate_input -= Input.get_action_strength("right" + str(player_id))
+	rotate_input += Input.get_action_strength("left%s" % str(player_id))
+	rotate_input -= Input.get_action_strength("right%s" % str(player_id))
 	rotate_input *= deg2rad(steering)
 	
 	# Wheel rotation
@@ -83,7 +113,6 @@ func _process(delta: float) -> void:
 	
 	# Car mesh rotation
 	if ball.linear_velocity.length() > turn_stop_limit:
-		var move_direction := sign(ball.linear_velocity.normalized().dot(car_mesh.transform.basis.z))
 		var rotation_dir = 0
 		
 		# Invert steering for accelerating and reversing
@@ -104,6 +133,8 @@ func _process(delta: float) -> void:
 	var n = ground_ray.get_collision_normal()
 	var xform = align_with_y(car_mesh.global_transform, n.normalized())
 	car_mesh.global_transform = car_mesh.global_transform.interpolate_with(xform, 10 * delta)
+	
+	print(speed_input)
 
 
 func _physics_process(delta):
@@ -122,11 +153,16 @@ func align_with_y(xform, new_y):
 
 
 func _on_health_boosted(amount: float) -> void:
-	pass
+	set_health(amount)
 
 
-func _on_speed_boosted(amount: float) -> void:
-	pass
+func _on_speed_boosted(can: bool) -> void:
+	can_boost = can
+
+
+func _on_BoostTimer_timeout() -> void:
+	print(can_boost)
+	stats.set_speed(-1.0)
 
 
 func _on_attack_item_used(item: PackedScene) -> void:

@@ -1,10 +1,10 @@
 extends Spatial
 
-onready var player_1: Spatial = $"HBox/Player1Viewport/Viewport/Level/0"
+onready var player_1: Spatial = $"Viewports/Player1Viewport/Viewport/Level/0"
 onready var player_2: Spatial = $"HBox/Player1Viewport/Viewport/Level/1"
 
-onready var p1_camera: Spatial = $HBox/Player1Viewport/Viewport/CameraOrigin
-onready var p2_camera: Spatial = $HBox/Player2Viewport/Viewport/CameraOrigin
+onready var p1_camera: Spatial = $Viewports/Player1Viewport/Viewport/CameraOrigin
+onready var p2_camera: Spatial = $Viewports/Player2Viewport/Viewport/CameraOrigin
 
 
 func _ready() -> void:

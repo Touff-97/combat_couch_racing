@@ -4,8 +4,8 @@ class_name Item
 enum itemType {
 	HEAL,
 	ATTACK,
-	DEFENSE,
-	SPEED,
+	DEFEND,
+	SPEED
 }
 
 export(int) var item_type = itemType.ATTACK

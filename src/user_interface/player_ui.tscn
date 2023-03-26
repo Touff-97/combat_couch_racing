@@ -1,0 +1,74 @@
+[gd_scene format=2]
+
+[node name="PlayerUI" type="Control"]
+anchor_right = 0.497
+anchor_bottom = 1.0
+margin_right = 0.76001
+rect_min_size = Vector2( 955, 1080 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 25
+custom_constants/margin_top = 25
+custom_constants/margin_left = 25
+custom_constants/margin_bottom = 15
+
+[node name="BottomUI" type="HBoxContainer" parent="Margin"]
+margin_left = 25.0
+margin_top = 865.0
+margin_right = 930.0
+margin_bottom = 1065.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 0, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="HealthDefense" type="VBoxContainer" parent="Margin/BottomUI"]
+margin_right = 200.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="HealthBar" type="ProgressBar" parent="Margin/BottomUI/HealthDefense"]
+margin_right = 200.0
+margin_bottom = 14.0
+
+[node name="DefenseItem" type="TextureRect" parent="Margin/BottomUI/HealthDefense"]
+margin_top = 18.0
+margin_right = 200.0
+margin_bottom = 200.0
+size_flags_vertical = 3
+
+[node name="ItemLabel" type="Label" parent="Margin/BottomUI/HealthDefense/DefenseItem"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Defense"
+align = 1
+valign = 1
+
+[node name="SpeedAttack" type="VBoxContainer" parent="Margin/BottomUI"]
+margin_left = 705.0
+margin_right = 905.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 10
+
+[node name="SpeedBar" type="ProgressBar" parent="Margin/BottomUI/SpeedAttack"]
+margin_right = 200.0
+margin_bottom = 14.0
+
+[node name="AttackItem" type="TextureRect" parent="Margin/BottomUI/SpeedAttack"]
+margin_top = 18.0
+margin_right = 200.0
+margin_bottom = 200.0
+size_flags_vertical = 3
+
+[node name="ItemLabel" type="Label" parent="Margin/BottomUI/SpeedAttack/AttackItem"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Attack"
+align = 1
+valign = 1

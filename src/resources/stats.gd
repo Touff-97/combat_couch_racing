@@ -11,7 +11,7 @@ var can_attack : bool = false
 var can_defend : bool = false
 var can_speed : bool = false
 
-signal health_boosted(amount)
+signal health_boosted(can)
 signal speed_boosted(amount)
 
 signal attack_item_used(item)
@@ -26,14 +26,15 @@ func set_health(new_health: float) -> void:
 
 
 func set_speed(new_speed: float) -> void:
-	speed_boost = new_speed
+	speed_boost += new_speed
+	speed_boost = clamp(speed_boost, 0, 20)
 	
 	if speed_boost > 0.0:
 		can_speed = true
 	else:
 		can_speed = false
 	
-	emit_signal("speed_boosted", speed_boost)
+	emit_signal("speed_boosted", can_speed)
 
 
 func get_speed() -> float:

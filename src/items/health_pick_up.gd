@@ -1,7 +1,7 @@
 extends Item
 class_name HealthItem
 
-export(float, 0.0, 10.0) var heal_value = 0.0
+export(float, 0.0, 10.0, 0.5) var heal_value = 0.0
 
 
 func _on_body_entered(body: Node) -> void:
