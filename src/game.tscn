@@ -89,7 +89,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 6 )
 
 [node name="SpeedPickUp" parent="Viewports/Player1Viewport/Viewport/Level" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 6 )
-item_type = 1
 
 [node name="CameraOrigin" type="Spatial" parent="Viewports/Player1Viewport/Viewport"]
 
@@ -144,6 +143,9 @@ anchor_bottom = 0.0
 margin_left = 965.0
 margin_right = 1920.0
 margin_bottom = 1080.0
+
+[connection signal="boost_burned" from="Viewports/Player1Viewport/Viewport/Level/0" to="." method="_on_player_boost_burned"]
+[connection signal="boost_burned" from="Viewports/Player1Viewport/Viewport/Level/1" to="." method="_on_player_boost_burned"]
 
 [editable path="Viewports/Player1Viewport/Viewport/Level/0"]
 [editable path="Viewports/Player1Viewport/Viewport/Level/0/CarMesh"]

@@ -1,6 +1,8 @@
 extends Resource
 class_name Stats
 
+onready var max_speed_boost : float = 20.0
+
 export(float) var health_boost = 0.0 setget set_health
 export(float) var speed_boost = 0.0 setget set_speed, get_speed
 
@@ -27,7 +29,7 @@ func set_health(new_health: float) -> void:
 
 func set_speed(new_speed: float) -> void:
 	speed_boost += new_speed
-	speed_boost = clamp(speed_boost, 0, 20)
+	speed_boost = clamp(speed_boost, 0.0, 20.0)
 	
 	if speed_boost > 0.0:
 		can_speed = true

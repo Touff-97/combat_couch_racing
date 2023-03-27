@@ -13,6 +13,7 @@ emission_on_uv2 = false
 
 [node name="HealthPickUp" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
+item_type = 0
 heal_value = 5.0
 
 [node name="Mesh" parent="." index="0"]

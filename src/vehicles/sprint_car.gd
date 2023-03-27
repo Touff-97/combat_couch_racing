@@ -4,8 +4,8 @@ export(int) onready var player_id setget set_id
 
 export(Resource) var stats setget set_stats
 
-onready var max_health : float = 20.0
-export(float, 0.0, 20.0, 0.5) var health = 20.0 setget set_health
+onready var max_health : float = 20.0 setget , get_max_health
+export(float, 0.0, 20.0, 0.5) var health = 20.0 setget set_health, get_health
 
 export(bool) var can_boost = false
 onready var boost_timer: Timer = $BoostTimer
@@ -35,6 +35,7 @@ var speed_input := 0.0
 var rotate_input := 0.0
 
 signal car_destroyed
+signal boost_burned(player)
 
 
 func set_id(new_id: int) -> void:
@@ -52,10 +53,18 @@ func set_stats(new_stats: Resource) -> void:
 
 func set_health(new_health: float) -> void:
 	health += new_health
-	health = clamp(health, 0.0, max_health)
+	health = clamp(health, 0.0, get_max_health())
 	
 	if health < 1.0:
 		emit_signal("car_destroyed")
+
+
+func get_health() -> float:
+	return health
+
+
+func get_max_health() -> float:
+	return max_health
 
 
 func _ready():
@@ -133,8 +142,6 @@ func _process(delta: float) -> void:
 	var n = ground_ray.get_collision_normal()
 	var xform = align_with_y(car_mesh.global_transform, n.normalized())
 	car_mesh.global_transform = car_mesh.global_transform.interpolate_with(xform, 10 * delta)
-	
-	print(speed_input)
 
 
 func _physics_process(delta):
@@ -161,8 +168,8 @@ func _on_speed_boosted(can: bool) -> void:
 
 
 func _on_BoostTimer_timeout() -> void:
-	print(can_boost)
 	stats.set_speed(-1.0)
+	emit_signal("boost_burned", self)
 
 
 func _on_attack_item_used(item: PackedScene) -> void:
