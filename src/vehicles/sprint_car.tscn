@@ -1,19 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/particles/Smoke.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/assets/vehicles/sprint_car.gltf" type="PackedScene" id=2]
 [ext_resource path="res://src/vehicles/sprint_car.gd" type="Script" id=3]
 [ext_resource path="res://src/assets/textures/texture_09.png" type="Texture" id=4]
-[ext_resource path="res://src/assets/textures/shadow.png" type="Texture" id=5]
-
-[sub_resource type="SpatialMaterial" id=4]
-flags_transparent = true
-albedo_color = Color( 1, 1, 1, 0.627451 )
-albedo_texture = ExtResource( 5 )
-
-[sub_resource type="PlaneMesh" id=5]
-material = SubResource( 4 )
-size = Vector2( 2, 4 )
+[ext_resource path="res://src/particles/boost_fire.tscn" type="PackedScene" id=6]
 
 [sub_resource type="PhysicsMaterial" id=6]
 bounce = 0.1
@@ -37,12 +28,15 @@ script = ExtResource( 3 )
 
 [node name="CarMesh" parent="." instance=ExtResource( 2 )]
 
+[node name="SR_Veh_SprintCar_Blue" parent="CarMesh" index="0"]
+transform = Transform( 1, 0, 0, 0, 0.999848, 0.0174524, 0, -0.0174524, 0.999848, 0, -0.0327427, 0 )
+
 [node name="RemoteTransform" type="RemoteTransform" parent="CarMesh/SR_Veh_SprintCar_Blue" index="4"]
 
 [node name="GroundRay" type="RayCast" parent="CarMesh"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 enabled = true
-cast_to = Vector3( 0, -0.5, 0 )
+cast_to = Vector3( 0, -2, 0 )
 
 [node name="Smoke" parent="CarMesh" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.274803, -1.36153 )
@@ -52,10 +46,14 @@ emitting = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.274803, -1.36153 )
 emitting = false
 
-[node name="Shadow" type="MeshInstance" parent="CarMesh"]
-visible = false
-mesh = SubResource( 5 )
-skeleton = NodePath("../../Ball")
+[node name="BoostFire" parent="CarMesh" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.275, -1.362 )
+
+[node name="BoostFire2" parent="CarMesh" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.275, -1.362 )
+
+[node name="Launcher" type="Position3D" parent="CarMesh"]
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.15, 0.5 )
 
 [node name="Ball" type="RigidBody" parent="."]
 physics_material_override = SubResource( 6 )
@@ -71,6 +69,12 @@ material/0 = SubResource( 3 )
 [node name="BoostTimer" type="Timer" parent="."]
 autostart = true
 
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="car_destroyed" from="." to="." method="_on_car_destroyed"]
 [connection signal="timeout" from="BoostTimer" to="." method="_on_BoostTimer_timeout"]
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_RespawnTimer_timeout"]
 
 [editable path="CarMesh"]

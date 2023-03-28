@@ -1,0 +1,131 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/assets/fonts/junegull rg.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://src/user_interface/main_menu.gd" type="Script" id=2]
+[ext_resource path="res://src/user_interface/menu_background.tscn" type="PackedScene" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 96
+outline_size = 8
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 48
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="DynamicFont" id=3]
+size = 32
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="Background" type="ViewportContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Viewport" type="Viewport" parent="Background"]
+size = Vector2( 1920, 1080 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="MenuBackground" parent="Background/Viewport" instance=ExtResource( 3 )]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.294118, 0.294118, 0.294118, 0.294118 )
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 50
+custom_constants/margin_top = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin"]
+margin_left = 50.0
+margin_top = 530.0
+margin_right = 1870.0
+margin_bottom = 1030.0
+rect_min_size = Vector2( 0, 500 )
+size_flags_vertical = 10
+custom_constants/separation = 20
+
+[node name="Label" type="Label" parent="Margin/VBoxContainer"]
+margin_right = 1820.0
+margin_bottom = 116.0
+custom_fonts/font = SubResource( 1 )
+text = "Combat Couch Racing"
+align = 1
+valign = 1
+
+[node name="Players" type="Button" parent="Margin/VBoxContainer"]
+margin_left = 808.0
+margin_top = 136.0
+margin_right = 1012.0
+margin_bottom = 200.0
+focus_neighbour_left = NodePath("../MediaLink")
+focus_neighbour_top = NodePath("../MediaLink")
+focus_neighbour_right = NodePath("../Play")
+focus_neighbour_bottom = NodePath("../Play")
+focus_next = NodePath("../Play")
+focus_previous = NodePath("../MediaLink")
+size_flags_horizontal = 4
+custom_colors/font_color_focus = Color( 0.792157, 0.215686, 0.215686, 1 )
+custom_fonts/font = SubResource( 2 )
+custom_styles/focus = SubResource( 4 )
+text = "1 PLAYER"
+flat = true
+
+[node name="Play" type="Button" parent="Margin/VBoxContainer"]
+margin_top = 220.0
+margin_right = 1820.0
+margin_bottom = 284.0
+focus_neighbour_left = NodePath("../Players")
+focus_neighbour_top = NodePath("../Players")
+focus_neighbour_right = NodePath("../MediaLink")
+focus_neighbour_bottom = NodePath("../MediaLink")
+focus_next = NodePath("../MediaLink")
+focus_previous = NodePath("../Players")
+custom_colors/font_color_focus = Color( 0.792157, 0.215686, 0.215686, 1 )
+custom_fonts/font = SubResource( 2 )
+custom_styles/focus = SubResource( 4 )
+text = "PLAY"
+flat = true
+
+[node name="MediaLink" type="Button" parent="Margin/VBoxContainer"]
+margin_left = 1498.0
+margin_top = 455.0
+margin_right = 1820.0
+margin_bottom = 500.0
+focus_neighbour_left = NodePath("../Play")
+focus_neighbour_top = NodePath("../Play")
+focus_neighbour_right = NodePath("../Players")
+focus_neighbour_bottom = NodePath("../Players")
+focus_next = NodePath("../Players")
+focus_previous = NodePath("../Play")
+size_flags_horizontal = 8
+size_flags_vertical = 10
+custom_colors/font_color_focus = Color( 0.792157, 0.215686, 0.215686, 1 )
+custom_fonts/font = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+text = "GameDev_byHobby"
+flat = true
+
+[connection signal="pressed" from="Margin/VBoxContainer/Players" to="." method="_on_Players_pressed"]
+[connection signal="pressed" from="Margin/VBoxContainer/Play" to="." method="_on_Play_pressed"]
+[connection signal="pressed" from="Margin/VBoxContainer/MediaLink" to="." method="_on_MediaLink_pressed"]

@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/vehicles/player_vehicle.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/particles/Smoke.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/particles/boost_fire.tscn" type="PackedScene" id=3]
+
+[node name="ShowCar" instance=ExtResource( 1 )]
+script = null
+
+[node name="CollisionShape18" parent="." index="1"]
+visible = false
+
+[node name="CollisionShape17" parent="." index="2"]
+visible = false
+
+[node name="CollisionShape16" parent="." index="3"]
+visible = false
+
+[node name="CollisionShape15" parent="." index="4"]
+visible = false
+
+[node name="CollisionShape14" parent="." index="5"]
+visible = false
+
+[node name="CollisionShape13" parent="." index="6"]
+visible = false
+
+[node name="CollisionShape12" parent="." index="7"]
+visible = false
+
+[node name="CollisionShape11" parent="." index="8"]
+visible = false
+
+[node name="CollisionShape10" parent="." index="9"]
+visible = false
+
+[node name="CollisionShape9" parent="." index="10"]
+visible = false
+
+[node name="CollisionShape8" parent="." index="11"]
+visible = false
+
+[node name="CollisionShape7" parent="." index="12"]
+visible = false
+
+[node name="CollisionShape6" parent="." index="13"]
+visible = false
+
+[node name="CollisionShape5" parent="." index="14"]
+visible = false
+
+[node name="CollisionShape4" parent="." index="15"]
+visible = false
+
+[node name="CollisionShape3" parent="." index="16"]
+visible = false
+
+[node name="CollisionShape2" parent="." index="17"]
+visible = false
+
+[node name="CollisionShape" parent="." index="18"]
+visible = false
+
+[node name="Wheel_FL" parent="." index="19"]
+transform = Transform( 0.93358, 0, 0.358368, 0, 1, 0, -0.358368, 0, 0.93358, 0.640917, 0.2, 1.2054 )
+
+[node name="Wheel_FR" parent="." index="20"]
+transform = Transform( 0.93358, 0, 0.358368, 0, 1, 0, -0.358368, 0, 0.93358, -0.640917, 0.2, 1.2054 )
+
+[node name="Smoke" parent="." index="23" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.274803, -1.36153 )
+
+[node name="Smoke2" parent="." index="24" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.274803, -1.36153 )
+
+[node name="BoostFire" parent="." index="25" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.275, -1.362 )
+emitting = true
+
+[node name="BoostFire2" parent="." index="26" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.275, -1.362 )
+emitting = true

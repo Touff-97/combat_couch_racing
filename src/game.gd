@@ -1,13 +1,21 @@
 extends Spatial
 
-onready var player_1: Spatial = $"Viewports/Player1Viewport/Viewport/Level/0"
-onready var player_2: Spatial = $"Viewports/Player1Viewport/Viewport/Level/1"
+onready var player_1: Spatial = $"Viewports/Player1Viewport/Player1_View/Level/0"
+onready var player_2: Spatial = $"Viewports/Player1Viewport/Player1_View/Level/1"
 
-onready var p1_camera: Spatial = $Viewports/Player1Viewport/Viewport/CameraOrigin
-onready var p2_camera: Spatial = $Viewports/Player2Viewport/Viewport/CameraOrigin
+onready var p1_camera: Spatial = $Viewports/Player1Viewport/Player1_View/CameraOrigin
+onready var p2_camera: Spatial = $Viewports/Player2Viewport/Player2_View/CameraOrigin
 
-onready var player_1ui: Control = $GUI/HBox/Player_1UI
-onready var player_2ui: Control = $GUI/HBox/Player_2UI
+onready var player_1ui: Control = $GUI/Players/Player_1UI
+onready var player_2ui: Control = $GUI/Players/Player_2UI
+
+onready var player_1_viewport: ViewportContainer = $Viewports/Player1Viewport
+onready var player_2_viewport: ViewportContainer = $Viewports/Player2Viewport
+onready var player_1_view: Viewport = $Viewports/Player1Viewport/Player1_View
+onready var player_2_view: Viewport = $Viewports/Player2Viewport/Player2_View
+onready var border: ColorRect = $Viewports/Border
+
+
 
 func _ready() -> void:
 	player_1.remote_transform.remote_path = p1_camera.get_path()
@@ -25,11 +33,15 @@ func _ready() -> void:
 	
 	for item in get_tree().get_nodes_in_group("pick_up"):
 		item.connect("item_picked_up", self, "_on_item_picked_up")
+	
+	player_1ui.set_health_value(5)
+	player_1.set_health(-15)
 
 
 func _on_item_picked_up(target: Spatial, type: int, value: float = 1.0, item: PackedScene = null) -> void:
 	match type:
 		0: # Heal item
+			print(value)
 			target.stats.set_health(value)
 			
 			update_health_ui(target)
@@ -43,8 +55,6 @@ func _on_item_picked_up(target: Spatial, type: int, value: float = 1.0, item: Pa
 		3: # Speed item
 			target.stats.set_speed(value)
 			
-			print("speed item")
-			
 			update_speed_ui(target)
 		
 		_:
@@ -56,8 +66,49 @@ func _on_player_boost_burned(player: Spatial) -> void:
 
 
 func update_health_ui(target: Spatial) -> void:
-	get_node("GUI/HBox/Player_%sUI" % str(target.player_id + 1)).set_health_value(target.get_health())
+	get_node("GUI/Players/Player_%sUI" % str(target.player_id + 1)).set_health_value(target.get_health())
 
 
 func update_speed_ui(target: Spatial) -> void:
-	get_node("GUI/HBox/Player_%sUI" % str(target.player_id + 1)).set_speed_value(target.stats.get_speed())
+	get_node("GUI/Players/Player_%sUI" % str(target.player_id + 1)).set_speed_value(target.stats.get_speed())
+
+
+func _on_0_car_destroyed() -> void:
+	player_1ui.dead_view_1_animation.play("respawn")
+	player_1ui.dead_label.show()
+	player_1ui.dead_timer.start()
+
+
+func _on_1_car_destroyed() -> void:
+	player_2ui.dead_view_2_animation.play("respawn")
+	player_2ui.dead_label.show()
+	player_2ui.dead_timer.start()
+
+
+func _on_MainMenu_players_changed(amount: int) -> void:
+	if amount == 1:
+		player_1ui.show()
+		player_1_viewport.show()
+		
+		player_2ui.hide()
+		player_2_viewport.hide()
+		
+		player_2.hide()
+		
+		border.hide()
+		
+		player_1_view.size.x = 1920
+	else:
+		player_1ui.show()
+		player_1_viewport.show()
+		
+		player_2ui.show()
+		player_2_viewport.show()
+		
+		player_2.show()
+		
+		border.show()
+		
+		
+		player_1_view.size.x = 955
+		player_2_view.size.x = 955

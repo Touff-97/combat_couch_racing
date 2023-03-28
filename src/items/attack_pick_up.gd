@@ -1,7 +1,7 @@
 extends Item
 class_name AttackItem
 
-export(String) var item_name = ""
+export(String) var item_name = "missile"
 export(int) var ammo_quantity = 1
 export(float) var cooldown = 0.2
 export(bool) var can_spray = true 

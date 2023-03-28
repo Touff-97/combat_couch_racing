@@ -2,9 +2,11 @@
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
+flags_unshaded = true
 flags_do_not_receive_shadows = true
 flags_disable_ambient_light = true
 vertex_color_use_as_albedo = true
+albedo_color = Color( 0.752941, 0.752941, 0.752941, 1 )
 
 [sub_resource type="SphereMesh" id=2]
 material = SubResource( 1 )

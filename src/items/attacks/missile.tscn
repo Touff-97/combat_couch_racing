@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/items/attacks/missile.gd" type="Script" id=1]
+[ext_resource path="res://src/particles/propulsion.tscn" type="PackedScene" id=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.890196, 0.262745, 0.262745, 1 )
+metallic = 0.8
+metallic_specular = 0.6
+roughness = 0.5
+
+[sub_resource type="CapsuleMesh" id=2]
+material = SubResource( 1 )
+radius = 0.25
+mid_height = 3.0
+
+[sub_resource type="ConvexPolygonShape" id=4]
+points = PoolVector3Array( -0.210194, 0.112326, -1.57278, 0.247842, 0.0309639, 1.47784, 0.248271, -0.0280695, 1.48041, -0.231322, -0.04909, 1.5792, 0.0507111, -0.244718, -1.47706, 0.108383, 0.224974, -1.45765, -0.028117, 0.248264, 1.48037, 0.0507111, -0.244718, 1.47706, 0.233477, -0.0690992, -1.55327, -0.166371, -0.186141, -1.50096, -0.202034, 0.146815, 1.45381, -0.105983, 0.226115, -1.46509, -0.107117, -0.22554, 1.50036, 0.15211, 0.19227, 1.54659, 0.210927, 0.13111, -1.51596, 0.168081, -0.184705, 1.48948, -0.245342, -0.0478418, -1.4808, 0.0737021, -0.0500564, 1.73321, -0.050057, 0.0736524, -1.73323, -0.21774, -0.122422, 1.41057, 0.131383, -0.208375, -1.53921, -0.24473, 0.0506653, 1.47713, -0.0702734, 0.155226, 1.68163, -0.0478418, -0.245342, -1.4808, -0.0498335, -0.132033, -1.70511, 0.247842, 0.0309639, -1.47784, 0.0310587, 0.247828, -1.47776, 0.0683431, 0.240273, 1.39442, 0.218496, -0.121156, -1.35862, 0.225001, 0.108326, 1.45752, -0.128051, 0.210775, 1.53521, 0.135098, 0.0322429, -1.70666, -0.240087, 0.0690819, -1.42989, -0.164972, 0.187523, -1.48845, -0.0908629, -0.111354, 1.70335, 0.0116317, 0.234894, -1.58345, 0.226142, -0.105925, 1.46496, -0.172299, -0.09048, -1.65619, 0.155167, 0.0731663, 1.68044, 0.153936, -0.150942, 1.62619, -0.245342, -0.0478418, 1.4808, -0.225552, -0.107075, -1.50045, -0.18611, -0.166387, 1.5011, -0.0478418, -0.245342, 1.4808, -0.172123, 0.0933311, 1.65451, 0.166625, 0.186024, -1.45697, 0.114244, -0.0907277, -1.70178, 0.124625, -0.216424, 1.3834, 0.240978, -0.0655464, -1.39854, -0.216424, 0.124625, -1.3834, 0.168081, -0.184705, -1.48948, -0.028117, 0.248264, -1.48037, -0.107117, -0.22554, -1.50036, 0.0520286, -0.231067, 1.57746, 0.166625, 0.186024, 1.45697, 0.092973, 0.194547, -1.62588, -0.0500569, 0.0736523, 1.73323, -0.0903474, 0.174898, -1.6529, 0.0116317, 0.234893, 1.58344, -0.04909, -0.231322, -1.5792, -0.0655465, 0.240978, 1.39854, 0.240284, 0.0682995, -1.39449, 0.234927, 0.0115814, 1.58334, 0.0732185, 0.155121, 1.68048 )
+
+[sub_resource type="SphereShape" id=3]
+radius = 25.0
+
+[node name="Missile" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Mesh" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+
+[node name="HitBox" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="HitBox"]
+shape = SubResource( 4 )
+
+[node name="EnemyDetector" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="EnemyDetector"]
+shape = SubResource( 3 )
+
+[node name="SelfDestructTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Propulsion" parent="." instance=ExtResource( 2 )]
+
+[node name="ExplosionTimer" type="Timer" parent="."]
+wait_time = 7.0
+one_shot = true
+
+[connection signal="body_entered" from="HitBox" to="." method="_on_HitBox_body_entered"]
+[connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
+[connection signal="timeout" from="SelfDestructTimer" to="." method="_on_SelfDestructTimer_timeout"]
+[connection signal="timeout" from="ExplosionTimer" to="." method="_on_ExplosionTimer_timeout"]

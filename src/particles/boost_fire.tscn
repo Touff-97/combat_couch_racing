@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/assets/gradients/fire.tres" type="Gradient" id=1]
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id=7]
+material = SubResource( 5 )
+
+[sub_resource type="Curve" id=8]
+_data = [ Vector2( 0, 0.370454 ), 0.0, 0.0, 0, 0, Vector2( 0.101852, 0.688636 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0522727 ), 0.0, 0.0, 0, 0 ]
+
+[node name="BoostFire" type="CPUParticles"]
+emitting = false
+amount = 50
+randomness = 0.5
+draw_order = 2
+mesh = SubResource( 7 )
+direction = Vector3( 0, 0, -1 )
+spread = 5.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 5.0
+initial_velocity_random = 0.1
+angular_velocity = 60.0
+angular_velocity_random = 1.0
+linear_accel = 4.0
+linear_accel_random = 1.0
+damping = 0.2
+damping_random = 0.5
+angle = 0.1
+angle_random = 0.8
+scale_amount = 0.5
+scale_amount_random = 0.2
+scale_amount_curve = SubResource( 8 )
+color = Color( 0.623529, 0.27451, 0.27451, 1 )
+color_ramp = ExtResource( 1 )

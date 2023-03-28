@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="SpatialMaterial" id=9]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id=6]
+material = SubResource( 9 )
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 0.570455 ), 0.0, 0.0, 0, 0, Vector2( 0.345679, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.996914, 0.152273 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0.239203, 0.488372, 0.757475, 1 )
+colors = PoolColorArray( 1, 0, 0, 1, 1, 0.219727, 0, 1, 1, 0.477539, 0, 1, 1, 0.805664, 0, 1, 0.889648, 1, 0, 1 )
+
+[node name="Propulsion" type="CPUParticles"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.73225 )
+emitting = false
+amount = 50
+lifetime = 0.5
+randomness = 0.5
+draw_order = 2
+mesh = SubResource( 6 )
+direction = Vector3( 0, 0, 1 )
+spread = 10.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 5.0
+initial_velocity_random = 0.1
+angular_velocity = 60.0
+angular_velocity_random = 1.0
+linear_accel = 4.0
+linear_accel_random = 1.0
+damping = 0.2
+damping_random = 0.5
+angle_random = 0.8
+scale_amount_curve = SubResource( 7 )
+color = Color( 0.921569, 0.0627451, 0.0627451, 1 )
+color_ramp = SubResource( 8 )

@@ -1,6 +1,157 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/user_interface/player_ui.gd" type="Script" id=1]
+[ext_resource path="res://src/assets/fonts/junegull rg.otf" type="DynamicFontData" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.270588, 0.784314, 0.176471, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.784314, 0.176471, 0.176471, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.176471, 0.223529, 0.784314, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.468, 0.494, 0.78, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="DynamicFont" id=12]
+size = 96
+outline_size = 8
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("DeadView1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "alive"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("DeadView1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.059909 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "respawn"
+length = 3.0
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "revive_1"
+} ]
+}
+
+[sub_resource type="Animation" id=9]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("DeadView2:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "alive"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("DeadView2:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "respawn"
+length = 3.0
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "revive_2"
+} ]
+}
 
 [node name="PlayerUI" type="Control"]
 anchor_right = 0.497
@@ -37,12 +188,19 @@ rect_min_size = Vector2( 200, 0 )
 
 [node name="HealthBar" type="ProgressBar" parent="Margin/BottomUI/HealthDefense"]
 margin_right = 200.0
-margin_bottom = 14.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+rect_pivot_offset = Vector2( 100, 0 )
+size_flags_horizontal = 13
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
 max_value = 20.0
 step = 1.0
+value = 5.0
+percent_visible = false
 
 [node name="Item" type="TextureRect" parent="Margin/BottomUI/HealthDefense"]
-margin_top = 18.0
+margin_top = 24.0
 margin_right = 200.0
 margin_bottom = 200.0
 size_flags_vertical = 3
@@ -63,11 +221,17 @@ size_flags_horizontal = 10
 
 [node name="SpeedBar" type="ProgressBar" parent="Margin/BottomUI/SpeedAttack"]
 margin_right = 200.0
-margin_bottom = 14.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
 max_value = 20.0
+step = 1.0
+value = 5.0
+percent_visible = false
 
 [node name="Item" type="TextureRect" parent="Margin/BottomUI/SpeedAttack"]
-margin_top = 18.0
+margin_top = 24.0
 margin_right = 200.0
 margin_bottom = 200.0
 size_flags_vertical = 3
@@ -78,3 +242,45 @@ anchor_bottom = 1.0
 text = "Attack"
 align = 1
 valign = 1
+
+[node name="DeadLabel" type="Label" parent="Margin"]
+visible = false
+margin_left = 447.0
+margin_top = 487.0
+margin_right = 507.0
+margin_bottom = 603.0
+size_flags_horizontal = 4
+custom_fonts/font = SubResource( 12 )
+text = "3"
+align = 1
+valign = 1
+
+[node name="DeadTimer" type="Timer" parent="Margin/DeadLabel"]
+
+[node name="DeadView1" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.305882, 0.305882, 0.305882, 0 )
+
+[node name="DeadView1Animation" type="AnimationPlayer" parent="DeadView1"]
+root_node = NodePath("../..")
+autoplay = "alive"
+anims/RESET = SubResource( 8 )
+anims/alive = SubResource( 7 )
+anims/respawn = SubResource( 6 )
+
+[node name="DeadView2" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.305882, 0.305882, 0.305882, 0 )
+
+[node name="DeadView2Animation" type="AnimationPlayer" parent="DeadView2"]
+root_node = NodePath("../..")
+autoplay = "alive"
+anims/RESET = SubResource( 9 )
+anims/alive = SubResource( 10 )
+anims/respawn = SubResource( 11 )
+
+[connection signal="timeout" from="Margin/DeadLabel/DeadTimer" to="." method="_on_DeadTimer_timeout"]

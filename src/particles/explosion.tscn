@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/assets/gradients/fire.tres" type="Gradient" id=1]
+[ext_resource path="res://src/particles/explosion.gd" type="Script" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="SphereMesh" id=1]
+material = SubResource( 3 )
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.203704, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.217045 ), 0.0, 0.0, 0, 0 ]
+
+[node name="Explosion" type="CPUParticles"]
+emitting = false
+amount = 200
+lifetime = 7.0
+one_shot = true
+speed_scale = 5.0
+explosiveness = 1.0
+randomness = 1.0
+mesh = SubResource( 1 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+flatness = 0.8
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 0.5
+angular_velocity = 2.0
+angular_velocity_random = 0.5
+linear_accel = 2.0
+linear_accel_random = 0.5
+angle = 0.5
+angle_random = 0.5
+scale_amount_random = 0.5
+scale_amount_curve = SubResource( 2 )
+color = Color( 0.713726, 0.462745, 0.247059, 1 )
+color_ramp = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="FreeTimer" type="Timer" parent="."]
+wait_time = 7.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="FreeTimer" to="." method="_on_FreeTimer_timeout"]

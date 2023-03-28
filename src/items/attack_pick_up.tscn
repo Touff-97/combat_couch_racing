@@ -13,7 +13,7 @@ emission_on_uv2 = false
 
 [node name="AttackPickUp" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-item_name = ""
+item_name = "missile"
 ammo_quantity = 1
 cooldown = 0.2
 can_spray = true

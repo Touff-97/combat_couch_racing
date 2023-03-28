@@ -1,5 +1,8 @@
 extends Spatial
 
+const EXPLOSION := preload("res://src/particles/explosion.tscn")
+const MISSILE := preload("res://src/items/attacks/missile.tscn")
+
 export(int) onready var player_id setget set_id
 
 export(Resource) var stats setget set_stats
@@ -9,12 +12,12 @@ export(float, 0.0, 20.0, 0.5) var health = 20.0 setget set_health, get_health
 
 export(bool) var can_boost = false
 onready var boost_timer: Timer = $BoostTimer
+onready var respawn_timer: Timer = $RespawnTimer
 
 onready var ball: RigidBody = $Ball
 onready var car_mesh: Spatial = $CarMesh
 onready var ground_ray: RayCast = $CarMesh/GroundRay
 onready var remote_transform: RemoteTransform = $CarMesh/SR_Veh_SprintCar_Blue/RemoteTransform
-onready var shadow: MeshInstance = $CarMesh/Shadow
 
 onready var right_wheel = $CarMesh/SR_Veh_SprintCar_Blue/SR_Veh_StockCar_Wheel_FR
 onready var left_wheel = $CarMesh/SR_Veh_SprintCar_Blue/SR_Veh_StockCar_Wheel_FL
@@ -52,8 +55,10 @@ func set_stats(new_stats: Resource) -> void:
 
 
 func set_health(new_health: float) -> void:
+	print(health)
 	health += new_health
-	health = clamp(health, 0.0, get_max_health())
+	health = clamp(health, 0.0, 20.0)
+	print(health)
 	
 	if health < 1.0:
 		emit_signal("car_destroyed")
@@ -76,12 +81,12 @@ func _process(delta: float) -> void:
 	if player_id != str(name).to_int():
 		return
 	
+	if Input.is_action_just_pressed("explode%s" % str(player_id)):
+		emit_signal("car_destroyed")
+	
 	# Only steer when on ground
 	if not ground_ray.is_colliding():
-		shadow.hide()
 		return
-	
-	shadow.show()
 	
 	move_direction = sign(ball.linear_velocity.normalized().dot(car_mesh.transform.basis.z))
 	
@@ -93,11 +98,20 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("boost%s" % str(player_id)) \
 			and can_boost \
 			and move_direction > 0:
+		
 		speed_input *= acceleration * boost
+		
+		$CarMesh/BoostFire.emitting = true
+		$CarMesh/BoostFire2.emitting = true
+		
 		if boost_timer.is_stopped():
 			boost_timer.start(0.3)
 	else:
 		speed_input *= acceleration
+		
+		$CarMesh/BoostFire.emitting = false
+		$CarMesh/BoostFire2.emitting = false
+		
 		if not boost_timer.is_stopped():
 			boost_timer.stop()
 	
@@ -147,7 +161,7 @@ func _process(delta: float) -> void:
 func _physics_process(delta):
 	car_mesh.transform.origin.x = ball.transform.origin.x + sphere_offset.x
 	car_mesh.transform.origin.z = ball.transform.origin.z + sphere_offset.z
-	car_mesh.transform.origin.y = lerp(car_mesh.transform.origin.y, ball.transform.origin.y + sphere_offset.y, 10 * delta)
+	car_mesh.transform.origin.y = lerp(car_mesh.transform.origin.y, ball.transform.origin.y + sphere_offset.y - 0.5, 10 * delta)
 	
 	ball.add_central_force(-car_mesh.global_transform.basis.z * speed_input)
 
@@ -178,3 +192,30 @@ func _on_attack_item_used(item: PackedScene) -> void:
 
 func _on_defense_item_used(item: PackedScene) -> void:
 	pass
+
+
+func _on_car_destroyed() -> void:
+	car_mesh.set_visible(false)
+	set_process(false)
+	set_physics_process(false)
+	explode()
+
+
+func explode() -> void:
+	var new_explosion := EXPLOSION.instance()
+	ball.mode = ball.MODE_STATIC
+	ball.add_child(new_explosion, true)
+	new_explosion.emitting = true
+	
+	can_boost = false
+	
+	respawn_timer.start()
+
+
+func _on_RespawnTimer_timeout() -> void:
+	car_mesh.set_visible(true)
+	set_process(true)
+	set_physics_process(true)
+	ball.mode = ball.MODE_RIGID
+	
+	stats.set_speed(stats.get_speed()-stats.get_speed())
