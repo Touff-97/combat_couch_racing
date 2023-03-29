@@ -1,12 +1,17 @@
 extends Spatial
 
-const LAUNCH_SPEED := 20.0
+const LAUNCH_SPEED := 50.0
 const EXPLOSION := preload("res://src/particles/explosion.tscn")
+
+export(Texture) var icon
+export(int) var ammo
+export(float) var cooldown
+export(bool) var can_spray
 
 export var lifetime := 20.0
 export var damage := 10.0
 
-var max_speed := 8.0
+var max_speed := 20.0
 var drag_factor := 0.15 setget set_drag_factor
 
 var launcher : Spatial
@@ -51,12 +56,18 @@ func _physics_process(delta: float) -> void:
 	look_at(global_translation + current_velocity, Vector3.UP)
 
 
-func _on_HitBox_body_entered(body: Node) -> void:
-	body.take_damage(damage)
+func _on_HitBox_body_entered(body: RigidBody) -> void:
+	if body == launcher:
+		return
+	
+	if not target:
+		return
+	
+	body.get_parent().take_damage(damage)
 	explode()
 
 
-func _on_EnemyDetector_body_entered(body: Node) -> void:
+func _on_EnemyDetector_body_entered(body: RigidBody) -> void:
 	if target:
 		return
 	
@@ -74,8 +85,15 @@ func _on_SelfDestructTimer_timeout() -> void:
 
 
 func explode() -> void:
+	$HitBox/CollisionShape.disabled = true
+	
 	var new_explosion := EXPLOSION.instance()
 	add_child(new_explosion, true)
+	new_explosion.translation = mesh.translation
+	
+	propulsion.emitting = false
+	mesh.visible = false
+	
 	new_explosion.emitting = true
 	
 	explosion_timer.start()
@@ -83,3 +101,7 @@ func explode() -> void:
 
 func _on_ExplosionTimer_timeout() -> void:
 	queue_free()
+
+
+func _on_Timer_timeout() -> void:
+	$HitBox/CollisionShape.disabled = false

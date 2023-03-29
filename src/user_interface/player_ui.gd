@@ -33,6 +33,15 @@ func get_speed_value() -> float:
 	return speed_value
 
 
+func set_attack_item(item_icon: Texture) -> void:
+	$Margin/BottomUI/SpeedAttack/Item.texture = item_icon
+	
+	if item_icon:
+		$Margin/BottomUI/SpeedAttack/Item/ItemLabel.hide()
+	else:
+		$Margin/BottomUI/SpeedAttack/Item/ItemLabel.show()
+
+
 func _process(delta: float) -> void:
 	$Margin/BottomUI/HealthDefense/HealthBar.rect_scale.x = -1
 

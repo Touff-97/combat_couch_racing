@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/user_interface/player_ui.gd" type="Script" id=1]
 [ext_resource path="res://src/assets/fonts/junegull rg.otf" type="DynamicFontData" id=2]
@@ -25,6 +25,13 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="DynamicFont" id=13]
+size = 24
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 2 )
+
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.176471, 0.223529, 0.784314, 1 )
 border_width_left = 2
@@ -46,6 +53,13 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="DynamicFont" id=14]
+size = 24
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=12]
 size = 96
@@ -208,6 +222,7 @@ size_flags_vertical = 3
 [node name="ItemLabel" type="Label" parent="Margin/BottomUI/HealthDefense/Item"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_fonts/font = SubResource( 13 )
 text = "Defense"
 align = 1
 valign = 1
@@ -235,10 +250,12 @@ margin_top = 24.0
 margin_right = 200.0
 margin_bottom = 200.0
 size_flags_vertical = 3
+expand = true
 
 [node name="ItemLabel" type="Label" parent="Margin/BottomUI/SpeedAttack/Item"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_fonts/font = SubResource( 14 )
 text = "Attack"
 align = 1
 valign = 1

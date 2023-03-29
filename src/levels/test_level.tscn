@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/assets/textures/texture_09.png" type="Texture" id=1]
 
 [sub_resource type="PlaneMesh" id=1]
-size = Vector2( 200, 200 )
+size = Vector2( 2000, 2000 )
 
 [sub_resource type="SpatialMaterial" id=2]
 flags_world_triplanar = true
@@ -14,13 +14,6 @@ uv2_triplanar = true
 
 [sub_resource type="ConvexPolygonShape" id=3]
 points = PoolVector3Array( -100.546, 0.546448, -100.546, 100.546, 0.546448, 100.546, -100.546, 0.546448, 100.546, 100.546, 0.546448, -100.546 )
-
-[sub_resource type="PrismMesh" id=5]
-left_to_right = 0.0
-size = Vector3( 10, 2, 5 )
-
-[sub_resource type="ConvexPolygonShape" id=6]
-points = PoolVector3Array( 4.8707, -0.871661, 2.58547, -4.83263, -1, -2.4359, -4.83263, -1, 2.47863, -4.61429, 1.00855, -2.54274, 5.04248, -0.957198, -2.54274, -4.61429, 1.00855, 2.58547, 4.83237, -1, 2.47863, -4.95869, 0.991453, -2.5, -4.87465, 0.974359, 2.5, 4.8707, -0.871661, -2.54274, 4.83237, -1, -2.4359, 5.04248, -0.957198, 2.58547 )
 
 [node name="Level" type="Spatial"]
 
@@ -33,13 +26,3 @@ material/0 = SubResource( 2 )
 
 [node name="Collision" type="CollisionShape" parent="Floor"]
 shape = SubResource( 3 )
-
-[node name="Ramp" type="StaticBody" parent="."]
-
-[node name="MeshInstance" type="MeshInstance" parent="Ramp"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 1, 0 )
-mesh = SubResource( 5 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Ramp"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 1, 0 )
-shape = SubResource( 6 )

@@ -17,11 +17,12 @@ onready var respawn_timer: Timer = $RespawnTimer
 onready var ball: RigidBody = $Ball
 onready var car_mesh: Spatial = $CarMesh
 onready var ground_ray: RayCast = $CarMesh/GroundRay
-onready var remote_transform: RemoteTransform = $CarMesh/SR_Veh_SprintCar_Blue/RemoteTransform
+onready var remote_transform: RemoteTransform = $CarMesh/SR_Veh_MonsterTruck_Red/RemoteTransform
+onready var launcher: Position3D = $CarMesh/Launcher
 
-onready var right_wheel = $CarMesh/SR_Veh_SprintCar_Blue/SR_Veh_StockCar_Wheel_FR
-onready var left_wheel = $CarMesh/SR_Veh_SprintCar_Blue/SR_Veh_StockCar_Wheel_FL
-onready var body_mesh = $CarMesh/SR_Veh_SprintCar_Blue
+onready var right_wheel = $CarMesh/SR_Veh_MonsterTruck_Red/SR_Veh_MonsterTruck_Wheel_FR
+onready var left_wheel = $CarMesh/SR_Veh_MonsterTruck_Red/SR_Veh_MonsterTruck_Wheel_FL
+onready var body_mesh = $CarMesh/SR_Veh_MonsterTruck_Red
 
 export(bool) var show_debug = false
 
@@ -39,6 +40,9 @@ var rotate_input := 0.0
 
 signal car_destroyed
 signal boost_burned(player)
+signal health_changed
+signal boosting(is_boost)
+signal missile_fired
 
 
 func set_id(new_id: int) -> void:
@@ -95,9 +99,17 @@ func _process(delta: float) -> void:
 	speed_input -= Input.get_action_strength("accel%s" % str(player_id))
 	speed_input += Input.get_action_strength("brake%s" % str(player_id))
 	
+	if Input.is_action_just_pressed("attack%s" % str(player_id)) \
+			and stats.can_attack:
+				stats.attack_item.launcher = ball
+				launcher.add_child(stats.attack_item)
+				emit_signal("missile_fired")
+	
 	if Input.is_action_pressed("boost%s" % str(player_id)) \
 			and can_boost \
 			and move_direction > 0:
+		
+		emit_signal("boosting", true)
 		
 		speed_input *= acceleration * boost
 		
@@ -107,6 +119,8 @@ func _process(delta: float) -> void:
 		if boost_timer.is_stopped():
 			boost_timer.start(0.3)
 	else:
+		emit_signal("boosting", false)
+		
 		speed_input *= acceleration
 		
 		$CarMesh/BoostFire.emitting = false
@@ -219,3 +233,9 @@ func _on_RespawnTimer_timeout() -> void:
 	ball.mode = ball.MODE_RIGID
 	
 	stats.set_speed(stats.get_speed()-stats.get_speed())
+
+
+func take_damage(damage: float) -> void:
+	print(damage)
+	set_health(-damage)
+	emit_signal("health_changed")

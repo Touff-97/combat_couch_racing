@@ -6,8 +6,8 @@ onready var max_speed_boost : float = 20.0
 export(float) var health_boost = 0.0 setget set_health
 export(float) var speed_boost = 0.0 setget set_speed, get_speed
 
-export(PackedScene) var attack_item setget set_attack_item
-export(PackedScene) var defense_item setget set_defense_item
+var attack_item setget set_attack_item
+var defense_item setget set_defense_item
 
 var can_attack : bool = false
 var can_defend : bool = false
@@ -43,7 +43,7 @@ func get_speed() -> float:
 	return speed_boost
 
 
-func set_attack_item(new_item: PackedScene) -> void:
+func set_attack_item(new_item: Spatial) -> void:
 	attack_item = new_item
 	
 	if attack_item:

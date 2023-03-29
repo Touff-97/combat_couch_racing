@@ -33,12 +33,9 @@ func _ready() -> void:
 	
 	for item in get_tree().get_nodes_in_group("pick_up"):
 		item.connect("item_picked_up", self, "_on_item_picked_up")
-	
-	player_1ui.set_health_value(5)
-	player_1.set_health(-15)
 
 
-func _on_item_picked_up(target: Spatial, type: int, value: float = 1.0, item: PackedScene = null) -> void:
+func _on_item_picked_up(target: Spatial, type: int, value: float = 1.0, item: Spatial = null) -> void:
 	match type:
 		0: # Heal item
 			print(value)
@@ -48,6 +45,8 @@ func _on_item_picked_up(target: Spatial, type: int, value: float = 1.0, item: Pa
 		
 		1: # Attack item
 			target.stats.set_attack_item(item)
+			
+			update_attack_item(target, item.icon)
 		
 		2: # Defense item
 			target.stats.set_defense_item(item)
@@ -71,6 +70,10 @@ func update_health_ui(target: Spatial) -> void:
 
 func update_speed_ui(target: Spatial) -> void:
 	get_node("GUI/Players/Player_%sUI" % str(target.player_id + 1)).set_speed_value(target.stats.get_speed())
+
+
+func update_attack_item(target: Spatial, item_icon: Texture) -> void:
+	get_node("GUI/Players/Player_%sUI/" % str(target.player_id + 1)).set_attack_item(item_icon)
 
 
 func _on_0_car_destroyed() -> void:
@@ -112,3 +115,33 @@ func _on_MainMenu_players_changed(amount: int) -> void:
 		
 		player_1_view.size.x = 955
 		player_2_view.size.x = 955
+
+
+func _on_0_health_changed() -> void:
+	update_health_ui(player_1)
+
+
+func _on_1_health_changed() -> void:
+	update_health_ui(player_2)
+
+
+func _on_0_boosting(is_boost) -> void:
+	if is_boost:
+		$Viewports/Player1Viewport/Player1_View/CameraOrigin/Camera.fov = 80
+	else:
+		$Viewports/Player1Viewport/Player1_View/CameraOrigin/Camera.fov = 70
+
+
+func _on_1_boosting(is_boost) -> void:
+	if is_boost:
+		$Viewports/Player2Viewport/Player2_View/CameraOrigin/Camera.fov = 80
+	else:
+		$Viewports/Player2Viewport/Player2_View/CameraOrigin/Camera.fov = 70
+
+
+func _on_0_missile_fired() -> void:
+	update_attack_item(player_1, null)
+
+
+func _on_1_missile_fired() -> void:
+	update_attack_item(player_2, null)
