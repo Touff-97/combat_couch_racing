@@ -1,0 +1,106 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://src/user_interface/player_viewport.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/environment/lighting_env.tres" type="Environment" id=2]
+[ext_resource path="res://src/user_interface/player_ui.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/user_interface/main_menu.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/user_interface/pause.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/levels/test_level.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/main.gd" type="Script" id=7]
+[ext_resource path="res://src/player/player.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/resources/stats.gd" type="Script" id=9]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 9 )
+health_boost = 0.0
+speed_boost = 0.0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 9 )
+health_boost = 0.0
+speed_boost = 0.0
+
+[node name="Main" type="Spatial"]
+script = ExtResource( 7 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 2 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 85, 0 )
+shadow_enabled = true
+shadow_color = Color( 0.6, 0.6, 0.6, 1 )
+directional_shadow_mode = 0
+directional_shadow_normal_bias = 0.5
+
+[node name="Viewports" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+
+[node name="PlayerViewport0" parent="Viewports" instance=ExtResource( 1 )]
+margin_right = 955.0
+margin_bottom = 1080.0
+
+[node name="Level" parent="Viewports/PlayerViewport0/Viewport" index="1" instance=ExtResource( 6 )]
+
+[node name="Players" type="Spatial" parent="Viewports/PlayerViewport0/Viewport" index="2"]
+
+[node name="Player_0" parent="Viewports/PlayerViewport0/Viewport/Players" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+stats = SubResource( 1 )
+
+[node name="Player_1" parent="Viewports/PlayerViewport0/Viewport/Players" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+player_id = 1
+stats = SubResource( 2 )
+
+[node name="Border" type="ColorRect" parent="Viewports"]
+margin_left = 955.0
+margin_right = 965.0
+margin_bottom = 1080.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="PlayerViewport1" parent="Viewports" instance=ExtResource( 1 )]
+margin_left = 965.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Players" type="HBoxContainer" parent="GUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 10
+
+[node name="Player_0" parent="GUI/Players" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 955.0
+margin_bottom = 1080.0
+
+[node name="Player_1" parent="GUI/Players" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 965.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[node name="MainMenu" parent="GUI" instance=ExtResource( 4 )]
+visible = false
+
+[node name="Pause" parent="GUI" instance=ExtResource( 5 )]
+visible = false
+
+[connection signal="atacked" from="Viewports/PlayerViewport0/Viewport/Players/Player_0" to="." method="_on_player_atacked" binds= [ 0 ]]
+[connection signal="boosting" from="Viewports/PlayerViewport0/Viewport/Players/Player_0" to="." method="_on_player_boosting" binds= [ 0 ]]
+[connection signal="health_changed" from="Viewports/PlayerViewport0/Viewport/Players/Player_0/HealthComponent" to="." method="_on_health_changed" binds= [ 0 ]]
+[connection signal="atacked" from="Viewports/PlayerViewport0/Viewport/Players/Player_1" to="." method="_on_player_atacked" binds= [ 1 ]]
+[connection signal="boosting" from="Viewports/PlayerViewport0/Viewport/Players/Player_1" to="." method="_on_player_boosting" binds= [ 1 ]]
+[connection signal="health_changed" from="Viewports/PlayerViewport0/Viewport/Players/Player_1/HealthComponent" to="." method="_on_health_changed" binds= [ 1 ]]
+[connection signal="players_changed" from="GUI/MainMenu" to="." method="_on_MainMenu_players_changed"]
+
+[editable path="Viewports/PlayerViewport0"]
+[editable path="Viewports/PlayerViewport0/Viewport/Players/Player_0"]
+[editable path="Viewports/PlayerViewport0/Viewport/Players/Player_1"]
+[editable path="Viewports/PlayerViewport1"]

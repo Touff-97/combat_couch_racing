@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://src/vehicles/player_vehicle.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/deprecated/player_vehicle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/particles/Smoke.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/particles/boost_fire.tscn" type="PackedScene" id=3]
 

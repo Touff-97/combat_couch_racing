@@ -1,20 +1,13 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/game.gd" type="Script" id=1]
 [ext_resource path="res://src/levels/test_level.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/vehicles/sprint_car.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/player/player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/environment/lighting_env.tres" type="Environment" id=4]
 [ext_resource path="res://src/shaders/post_process_outlines.shader" type="Shader" id=5]
-[ext_resource path="res://src/items/health_pick_up.tscn" type="PackedScene" id=7]
-[ext_resource path="res://src/items/speed_pick_up.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/user_interface/player_ui.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/user_interface/main_menu.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/user_interface/pause.tscn" type="PackedScene" id=11]
-[ext_resource path="res://src/items/attack_pick_up.tscn" type="PackedScene" id=12]
-
-[sub_resource type="PhysicsMaterial" id=1]
-bounce = 0.1
-absorbent = true
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 5 )
@@ -70,65 +63,9 @@ render_target_update_mode = 0
 [node name="0" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -51 )
 
-[node name="Ball" parent="Viewports/Player1Viewport/Player1_View/Level/0" index="1"]
-physics_material_override = SubResource( 1 )
-gravity_scale = 10.0
-angular_damp = 5.0
-
 [node name="1" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 3 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4, 1, 62 )
 player_id = 1
-
-[node name="Ball" parent="Viewports/Player1Viewport/Player1_View/Level/1" index="1"]
-physics_material_override = SubResource( 1 )
-gravity_scale = 10.0
-angular_damp = 5.0
-
-[node name="HealthPickUp" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6 )
-
-[node name="HealthPickUp2" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -25.1201, 2, 6 )
-
-[node name="HealthPickUp3" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7731, 2, 6 )
-
-[node name="SpeedPickUp" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -40 )
-
-[node name="SpeedPickUp2" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -24 )
-
-[node name="SpeedPickUp3" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -8 )
-
-[node name="SpeedPickUp4" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -8 )
-
-[node name="SpeedPickUp5" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 18 )
-
-[node name="SpeedPickUp6" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 34 )
-
-[node name="SpeedPickUp7" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 47 )
-
-[node name="AttackPickUp" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, -24 )
-can_spray = false
-
-[node name="AttackPickUp2" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, -24 )
-can_spray = false
-
-[node name="AttackPickUp3" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 34 )
-can_spray = false
-
-[node name="AttackPickUp4" parent="Viewports/Player1Viewport/Player1_View/Level" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, 34 )
-can_spray = false
 
 [node name="CameraOrigin" type="Spatial" parent="Viewports/Player1Viewport/Player1_View"]
 
@@ -171,39 +108,32 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/separation = 10
 
-[node name="Player_1UI" parent="GUI/Players" instance=ExtResource( 9 )]
-visible = false
+[node name="Player_0" parent="GUI/Players" instance=ExtResource( 9 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 955.0
 margin_bottom = 1080.0
 
-[node name="Player_2UI" parent="GUI/Players" instance=ExtResource( 9 )]
-visible = false
+[node name="Player_1" parent="GUI/Players" instance=ExtResource( 9 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 482.0
-margin_right = 1437.0
+margin_left = 965.0
+margin_right = 1920.0
 margin_bottom = 1080.0
 
 [node name="MainMenu" parent="GUI" instance=ExtResource( 10 )]
+visible = false
 
 [node name="Pause" parent="GUI" instance=ExtResource( 11 )]
 visible = false
 
 [connection signal="boost_burned" from="Viewports/Player1Viewport/Player1_View/Level/0" to="." method="_on_player_boost_burned"]
 [connection signal="boosting" from="Viewports/Player1Viewport/Player1_View/Level/0" to="." method="_on_0_boosting"]
-[connection signal="car_destroyed" from="Viewports/Player1Viewport/Player1_View/Level/0" to="." method="_on_0_car_destroyed"]
-[connection signal="health_changed" from="Viewports/Player1Viewport/Player1_View/Level/0" to="." method="_on_0_health_changed"]
 [connection signal="missile_fired" from="Viewports/Player1Viewport/Player1_View/Level/0" to="." method="_on_0_missile_fired"]
 [connection signal="boost_burned" from="Viewports/Player1Viewport/Player1_View/Level/1" to="." method="_on_player_boost_burned"]
 [connection signal="boosting" from="Viewports/Player1Viewport/Player1_View/Level/1" to="." method="_on_1_boosting"]
-[connection signal="car_destroyed" from="Viewports/Player1Viewport/Player1_View/Level/1" to="." method="_on_1_car_destroyed"]
-[connection signal="health_changed" from="Viewports/Player1Viewport/Player1_View/Level/1" to="." method="_on_1_health_changed"]
 [connection signal="missile_fired" from="Viewports/Player1Viewport/Player1_View/Level/1" to="." method="_on_1_missile_fired"]
 [connection signal="players_changed" from="GUI/MainMenu" to="." method="_on_MainMenu_players_changed"]
 
 [editable path="Viewports/Player1Viewport/Player1_View/Level/0"]
-[editable path="Viewports/Player1Viewport/Player1_View/Level/0/CarMesh"]
 [editable path="Viewports/Player1Viewport/Player1_View/Level/1"]
-[editable path="Viewports/Player1Viewport/Player1_View/Level/1/CarMesh"]

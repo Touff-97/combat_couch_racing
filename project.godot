@@ -34,10 +34,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/items/pick_up.gd"
 }, {
-"base": "VehicleBody",
+"base": "Spatial",
 "class": "Player",
 "language": "GDScript",
-"path": "res://src/vehicles/player_vehicle.gd"
+"path": "res://src/player/player.gd"
 }, {
 "base": "Item",
 "class": "SpeedItem",
@@ -63,7 +63,7 @@ _global_script_class_icons={
 [application]
 
 config/name="230324 Combat Couch Racing"
-run/main_scene="res://src/game.tscn"
+run/main_scene="res://src/main.tscn"
 config/icon="res://icon.png"
 
 [display]

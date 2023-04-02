@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/assets/textures/texture_09.png" type="Texture" id=1]
+[ext_resource path="res://src/items/health_pick_up.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/items/attack_pick_up.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/items/speed_pick_up.tscn" type="PackedScene" id=4]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 2000, 2000 )
@@ -12,8 +15,8 @@ albedo_texture = ExtResource( 1 )
 uv1_triplanar = true
 uv2_triplanar = true
 
-[sub_resource type="ConvexPolygonShape" id=3]
-points = PoolVector3Array( -100.546, 0.546448, -100.546, 100.546, 0.546448, 100.546, -100.546, 0.546448, 100.546, 100.546, 0.546448, -100.546 )
+[sub_resource type="ConcavePolygonShape" id=3]
+data = PoolVector3Array( 1000, 0, 1000, -1000, 0, 1000, 1000, 0, -1000, -1000, 0, 1000, -1000, 0, -1000, 1000, 0, -1000 )
 
 [node name="Level" type="Spatial"]
 
@@ -24,5 +27,53 @@ mesh = SubResource( 1 )
 skeleton = NodePath("../..")
 material/0 = SubResource( 2 )
 
-[node name="Collision" type="CollisionShape" parent="Floor"]
+[node name="CollisionShape" type="CollisionShape" parent="Floor"]
 shape = SubResource( 3 )
+
+[node name="Items" type="Spatial" parent="."]
+
+[node name="HealthPickUp" parent="Items" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6 )
+
+[node name="HealthPickUp2" parent="Items" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -25.1201, 2, 6 )
+
+[node name="HealthPickUp3" parent="Items" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.7731, 2, 6 )
+
+[node name="SpeedPickUp" parent="Items" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -40 )
+
+[node name="SpeedPickUp2" parent="Items" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -24 )
+
+[node name="SpeedPickUp3" parent="Items" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -8 )
+
+[node name="SpeedPickUp4" parent="Items" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -8 )
+
+[node name="SpeedPickUp5" parent="Items" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 18 )
+
+[node name="SpeedPickUp6" parent="Items" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 34 )
+
+[node name="SpeedPickUp7" parent="Items" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 47 )
+
+[node name="AttackPickUp" parent="Items" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, -24 )
+can_spray = false
+
+[node name="AttackPickUp2" parent="Items" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, -24 )
+can_spray = false
+
+[node name="AttackPickUp3" parent="Items" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 34 )
+can_spray = false
+
+[node name="AttackPickUp4" parent="Items" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, 34 )
+can_spray = false

@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/assets/textures/texture_09.png" type="Texture" id=1]
-[ext_resource path="res://src/user_interface/show_car.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/vehicles/sprint_car.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/shaders/post_process_outlines.shader" type="Shader" id=3]
 
 [sub_resource type="PlaneMesh" id=1]
@@ -49,19 +49,23 @@ material/0 = SubResource( 2 )
 shape = SubResource( 3 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.406211, -0.117362, -0.906211, 0.258992, 0.965838, -0.00899085, 0.876308, -0.231049, 0.42273, 0.193981, 3.01706, 1.4823 )
+transform = Transform( 0.406211, -0.117362, -0.906211, 0.258992, 0.965838, -0.00899061, 0.876308, -0.231049, 0.42273, 0.193981, 4.01706, 1.4823 )
 fov = 80.0
 
 [node name="MeshInstance" type="MeshInstance" parent="Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 2.98023e-08, -7.45058e-09, 1, 0, 0, 0 )
 mesh = SubResource( 5 )
 
-[node name="ShowCar" parent="." instance=ExtResource( 2 )]
-transform = Transform( 7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, 3, 0.5, -3 )
+[node name="SprintCar" parent="." instance=ExtResource( 2 )]
+transform = Transform( -5.96046e-08, 0, -1, 0, 1, 0, 1, 0, -5.96046e-08, 5, 0.5, -3 )
 
-[node name="Smoke" parent="ShowCar" index="23"]
-visible = false
+[node name="Wheel_FL" parent="SprintCar" index="0"]
+transform = Transform( 0.93358, 0, 0.358368, 0, 1, 0, -0.358368, 0, 0.93358, 1.28182, 0.654825, 2.39373 )
 
-[node name="Smoke2" parent="ShowCar" index="24"]
-visible = false
+[node name="Wheel_FR" parent="SprintCar" index="1"]
+transform = Transform( 0.93358, 0, 0.358368, 0, 1, 0, -0.358368, 0, 0.93358, -1.28182, 0.654824, 2.39373 )
 
-[editable path="ShowCar"]
+[node name="Boost" parent="SprintCar" index="8"]
+emitting = true
+
+[editable path="SprintCar"]

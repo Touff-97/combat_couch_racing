@@ -16,7 +16,6 @@ onready var player_2_view: Viewport = $Viewports/Player2Viewport/Player2_View
 onready var border: ColorRect = $Viewports/Border
 
 
-
 func _ready() -> void:
 	player_1.remote_transform.remote_path = p1_camera.get_path()
 	player_2.remote_transform.remote_path = p2_camera.get_path()

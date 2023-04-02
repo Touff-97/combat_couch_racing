@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/shaders/post_process_outlines.shader" type="Shader" id=1]
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 1 )
+shader_param/color_outline_scale = 2.0
+shader_param/depth_outline_scale = 2.0
+shader_param/depth_threshold = 2.5
+shader_param/depth_multiplier = 1000.0
+shader_param/edge_threshold = 0.04
+shader_param/max_edge_alpha = 0.8
+shader_param/edge_alpha_multiplier = 3.0
+shader_param/edge_color = Color( 0, 0, 0, 1 )
+shader_param/depth_use_laplace = true
+shader_param/color_use_laplace = false
+shader_param/use_bg_texture = false
+
+[sub_resource type="QuadMesh" id=5]
+material = SubResource( 4 )
+size = Vector2( 2, 2 )
+
+[node name="PlayerViewport" type="ViewportContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 955, 1080 )
+size_flags_horizontal = 3
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 955, 1080 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="CameraOrigin" type="Spatial" parent="Viewport"]
+
+[node name="Camera" type="Camera" parent="Viewport/CameraOrigin"]
+transform = Transform( -1, -2.62202e-08, 1.48702e-07, 0, 0.984808, 0.173648, -1.50996e-07, 0.173648, -0.984808, 0, 8, -15 )
+current = true
+
+[node name="MeshInstance" type="MeshInstance" parent="Viewport/CameraOrigin/Camera"]
+mesh = SubResource( 5 )

@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/assets/textures/texture_09.png" type="Texture" id=1]
+[ext_resource path="res://src/player/player.gd" type="Script" id=4]
+[ext_resource path="res://src/components/health_component.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/player/collision_body.gd" type="Script" id=6]
+
+[sub_resource type="SphereShape" id=1]
+
+[sub_resource type="SphereMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+flags_world_triplanar = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_texture = ExtResource( 1 )
+uv1_triplanar = true
+uv2_triplanar = true
+
+[node name="Player" type="Spatial" groups=["player"]]
+script = ExtResource( 4 )
+
+[node name="HealthComponent" parent="." instance=ExtResource( 5 )]
+
+[node name="CollisionBody" type="RigidBody" parent="."]
+script = ExtResource( 6 )
+player = NodePath("..")
+
+[node name="Collision" type="CollisionShape" parent="CollisionBody"]
+shape = SubResource( 1 )
+
+[node name="DebugMesh" type="MeshInstance" parent="CollisionBody"]
+visible = false
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshBody" type="Spatial" parent="."]
+
+[node name="GroundRay" type="RayCast" parent="MeshBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+enabled = true
+cast_to = Vector3( 0, -10, 0 )
+
+[node name="BoostTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="no_health" from="HealthComponent" to="." method="_on_car_destroyed"]
